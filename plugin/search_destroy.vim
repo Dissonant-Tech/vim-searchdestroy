@@ -36,7 +36,7 @@ endfunction
 " Handle normal mode mapping
 function! search_destroy#SearchDestroyNormal()
      let word  = search_destroy#GetInput("Replace With: ")
-    execute '%s/' . expand('<cword>') . '/' . word '/g'
+    execute '%s/\<' . expand('<cword>') . '\>/' . word '/g'
 endfunction
 
 function! search_destroy#ReplaceWord(word)
