@@ -1,4 +1,6 @@
 
+
+" Check if plugin is already loaded, and handle keymappings
 if exists('g:loaded_SearchDestroy') && g:loaded_SearchDestroy
     finish
 endif
@@ -7,24 +9,44 @@ let g:loaded_SearchDestroy = 1
 set cpo&vim
 
 if !hasmapto('<Plug>SearchDestroy')
-  map <unique> <Leader>sr <Plug>SearchDestroy
+  vmap <unique> <Leader>sd <Plug>SearchDestroyVisual 
+  nmap <unique> <Leader>sd <Plug>SearchDestroyNormal 
 endif
 
-map <silent> <unique> <script> <Plug>SearchDestroy
- \ :call search_destroy#SearchDestroy()<CR>
+vmap <silent> <unique> <script> <Plug>SearchDestroyVisual 
+ \ :call search_destroy#SearchDestroyVisual ()<CR>
 
-function! search_destroy#SearchDestroy()
+nmap <silent> <unique> <script> <Plug>SearchDestroyNormal
+ \ :call search_destroy#SearchDestroyNormal()<CR>
+
+
+" Handle Visual mode mapping
+function! search_destroy#SearchDestroyVisual () range
     let selection = s:GetSelection()
-    let split_selection = split(selection)
 
-    let txt = search_destroy#GetInput()
-
-    if len(split_selection) > 1
-        call search_destroy#ReplaceWord(selection, txt)
+    if selection =~ " "
+        let old = search_destroy#GetInput("Replace: ")
+        let new = search_destroy#GetInput("With: ")
+        '<,'>call search_destroy#ReplaceInRange(old, new)
     else
-        call search_destroy#ReplaceInSelection(selection, txt)
+        call search_destroy#ReplaceWord(selection)
     endif
+endfunction
 
+" Handle normal mode mapping
+function! search_destroy#SearchDestroyNormal()
+     let word  = search_destroy#GetInput("Replace With: ")
+    execute '%s/' . expand('<cword>') . '/' . word '/g'
+endfunction
+
+function! search_destroy#ReplaceWord(word)
+    let text = search_destroy#GetInput("Replace with: ")
+    execute '%s/' . a:word . '/' . text . '/g'
+endfunction
+
+function! search_destroy#ReplaceInRange(old, new) range
+        let rpl = "'<,'>"
+        execute rpl . 's/\%V' . a:old . '/' . a:new . '/g'
 endfunction
 
 function! s:GetSelection()
@@ -38,18 +60,7 @@ function! s:GetSelection()
     endtry
 endfunction
 
-function! search_destroy#ReplaceWord(word, txt)
-    exec %s/a:word/a:txt/g
-endfunction
-
-function! search_destroy#ReplaceInSelection(selection, text)
-    exec %s/%Va:word/a:txt/g
-endfunction
-
-function! search_destroy#GetInput()
-    let curline = getline('.')
-    call inputsave()
-    let new_txt = input('Replace with: ')
-    call inputrestore()
+function! search_destroy#GetInput(prompt)
+    let new_txt = input(a:prompt)
     return new_txt
 endfunction
