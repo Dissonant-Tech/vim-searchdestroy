@@ -19,7 +19,7 @@ endif
 
 if g:searchdestroy_default_mappings
     vmap <silent> <unique> <script> <Plug>SearchDestroyVisual 
-                \ :call search_destroy#SearchDestroyVisual ()<CR>
+                \ :call search_destroy#SearchDestroyVisual()<CR>
 
     nmap <silent> <unique> <script> <Plug>SearchDestroyNormal
                 \ :call search_destroy#SearchDestroyNormal()<CR>
@@ -33,11 +33,11 @@ function! search_destroy#SearchDestroyVisual () range
 
     if selection =~ " "
         let old = search_destroy#GetInput("Replace: ")
-        if s:stop_execution
+        if s:stop_execution == 1
             return
         else
             let new = search_destroy#GetInput("With: ")
-            if s:stop_execution
+            if s:stop_execution == 1
                 return
             else
                 '<,'>call search_destroy#ReplaceInRange(old, new)
@@ -50,8 +50,8 @@ endfunction
 
 " Handle normal mode mapping
 function! search_destroy#SearchDestroyNormal()
-    let word  = search_destroy#GetInput("Replace With: ")
-    if s:stop_execution
+    let word = search_destroy#GetInput("Replace with: ")
+    if s:stop_execution == 1
         return
     else
         execute '%s/\<' . expand('<cword>') . '\>/' . word '/g'
@@ -60,7 +60,7 @@ endfunction
 
 function! search_destroy#ReplaceWord(word)
     let text = search_destroy#GetInput("Replace with: ")
-    if s:stop_execution
+    if s:stop_execution == 1
         return
     else
         execute '%s/' . a:word . '/' . text . '/g'
@@ -89,6 +89,7 @@ function! search_destroy#GetInput(prompt)
         let s:stop_execution = 1
         echo "No input. Exiting"
     else
+        let new_txt = substitute(new_txt,"^\\s\\+\\|\\s\\+$","","g")
         return new_txt
     endif
 endfunction
