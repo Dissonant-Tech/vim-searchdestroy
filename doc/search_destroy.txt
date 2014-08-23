@@ -1,0 +1,73 @@
+*searchdestroy.txt*         Easy search and replace mapping for vim
+
+Author: David Rodriguez <dissonant.tech@gmail.com>
+
+
+INTRODUCTION                    *searchdestroy*
+
+This plugin provides idiomatic vim text objects that select the whole buffer.
+
+
+MAPS                        *searchdestroy-maps*
+
+                            *searchdestroy-<leader>sd*
+<leader>sd     
+
+In normal mode:
+
+Prompts for new word, replaces all occurences of the  word under the 
+cursor with the new one. Only matches the full word.
+
+In visual mode:
+
+Prompts for new word. Replaces all occurences of selected text 
+with new word. If more than one word is selected prompts for text to 
+be replaced, and for new text. Replaces all occurences in the selection.
+
+
+                        *g:searchdestroy_default_mappings*
+To disable default maps, add the following to your vimrc:
+>
+  let g:searchdestroy_default_mappings = 0
+<
+
+                                *<Plug>SearchDestroyNormal*
+To remap the default map for normal mode to <leader>S
+add the following to your vimrc:
+>
+  map <leader>S  <plug>SearchDestroyNormal
+<
+
+                                *<Plug>SearchDestroyVisual*
+To remap the default map for visual mode to <leader>S 
+and the following to your vimrc:
+>
+  map <leader>S <Plug>SearchDestroyVisual
+<
+
+CONTRIBUTING                    *searchdestroy-contributing*
+
+Contributing is welcome. Github repo:
+
+  https://github.com/Dissonant-Tech/vim-searchdestroy
+
+LICENSE                     *searchdestroy-license*
+
+searchdestroy, Easy search and replace mapping for vim
+Copyright (C) 2014 David Rodriguez
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+ vim:tw=78:ts=8:ft=help:norl:
