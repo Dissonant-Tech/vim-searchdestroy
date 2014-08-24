@@ -34,3 +34,7 @@ cd ~/.vim
 git submodule add git://github.com/Dissonant-Tech/vim-searchdestroy.git bundle/vim-searchdestroy
 ```
 
+Caveats
+=======
+
+I've found that replacing a word with `<leader>sd` in normal mode will leave a trailing space afterwards.

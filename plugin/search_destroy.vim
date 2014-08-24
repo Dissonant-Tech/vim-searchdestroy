@@ -13,13 +13,13 @@ let g:loaded_SearchDestroy = 1
 set cpo&vim
 
 if !hasmapto('<Plug>SearchDestroy') && g:searchdestroy_default_mappings
-    vmap <unique> <Leader>sd <Plug>SearchDestroyVisual 
-    nmap <unique> <Leader>sd <Plug>SearchDestroyNormal 
+    vmap <unique> <Leader>sd <Plug>SearchDestroyVisual
+    nmap <unique> <Leader>sd <Plug>SearchDestroyNormal
 endif
 
 if g:searchdestroy_default_mappings
-    vmap <silent> <unique> <script> <Plug>SearchDestroyVisual 
-                \ :call search_destroy#SearchDestroyVisual()<CR>
+    vmap <silent> <unique> <script> <Plug>SearchDestroyVisual
+               \ :call search_destroy#SearchDestroyVisual()<CR>
 
     nmap <silent> <unique> <script> <Plug>SearchDestroyNormal
                 \ :call search_destroy#SearchDestroyNormal()<CR>
@@ -50,12 +50,8 @@ endfunction
 
 " Handle normal mode mapping
 function! search_destroy#SearchDestroyNormal()
-    let word = search_destroy#GetInput("Replace with: ")
-    if s:stop_execution == 1
-        return
-    else
-        execute '%s/\<' . expand('<cword>') . '\>/' . word '/g'
-    endif
+    let old = s:GetNormalSelection()
+    call search_destroy#ReplaceWord(old)
 endfunction
 
 function! search_destroy#ReplaceWord(word)
@@ -63,19 +59,31 @@ function! search_destroy#ReplaceWord(word)
     if s:stop_execution == 1
         return
     else
-        execute '%s/' . a:word . '/' . text . '/g'
+        execute '%s/'.a:word.'/'.text.'/g'
     endif
 endfunction
 
 function! search_destroy#ReplaceInRange(old, new) range
     let rpl = "'<,'>"
-    execute rpl . 's/\%V' . a:old . '/' . a:new . '/g'
+    execute rpl.'s/\%V'.a:old.'/'.a:new.'/g'
 endfunction
 
 function! s:GetSelection()
     try
         let x_old = @x
         "yank current visual selection to reg x
+        normal gv"xy"
+        return @x
+    finally
+        let @x = x_old
+    endtry
+endfunction
+
+function! s:GetNormalSelection()
+    try
+        let x_old = @x
+        "yank current visual selection to reg x
+        normal viw
         normal gv"xy"
         return @x
     finally
