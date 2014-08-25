@@ -19,6 +19,8 @@ In visual mode:
 * Prompts for new word. Replaces all occurences of selected text with new word.
 * If more than one word is selected prompts for text to be replaced, and for new text. Replaces all occurences in the selection.
 
+`<leader>sda` - Search and replace for args(`:help :args`)
+
 Installation
 ============
 
