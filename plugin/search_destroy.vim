@@ -15,6 +15,7 @@ set cpo&vim
 if !hasmapto('<Plug>SearchDestroy') && g:searchdestroy_default_mappings
     vmap <unique> <Leader>sd <Plug>SearchDestroyVisual
     nmap <unique> <Leader>sd <Plug>SearchDestroyNormal
+    map <unique> <Leader>sda <Plug>SearchDestroyArgs
 endif
 
 if g:searchdestroy_default_mappings
@@ -23,6 +24,9 @@ if g:searchdestroy_default_mappings
 
     nmap <silent> <unique> <script> <Plug>SearchDestroyNormal
                 \ :call search_destroy#SearchDestroyNormal()<CR>
+    
+    map <silent> <unique> <script> <Plug>SearchDestroyArgs
+                \ :call search_destroy#SearchDestroyArgs()<CR>
 endif
 
 let s:stop_execution = 0
@@ -53,6 +57,19 @@ function! search_destroy#SearchDestroyNormal()
     let old = s:GetNormalSelection()
     call search_destroy#ReplaceWord(old)
 endfunction
+
+function! SearchDestroyArgs()
+    let old = search_destroy#GetInput("Replace: ")
+    if s:stop_execution == 1
+        return
+    else
+        let new = search_destroy#GetInput("With: ")
+        if s:stop_execution == 1
+            return
+        else
+            argdo '%s/'.l:old.'/'.l:new.'/g'
+        endif
+    endif
 
 function! search_destroy#ReplaceWord(word)
     let text = search_destroy#GetInput("Replace with: ")
