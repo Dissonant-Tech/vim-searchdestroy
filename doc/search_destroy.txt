@@ -23,7 +23,12 @@ In visual mode:
 Prompts for new word. Replaces all occurences of selected text 
 with new word. If more than one word is selected prompts for text to 
 be replaced, and for new text. Replaces all occurences in the selection.
+                            
+                            *searchdestroy-<leader>sda*
+<leader>sda     
 
+Prompts for a word or text to be replaced and for their replacement.
+Replaces all occurences in the files in :args.
 
                         *g:searchdestroy_default_mappings*
 To disable default maps, add the following to your vimrc:
@@ -35,14 +40,14 @@ To disable default maps, add the following to your vimrc:
 To remap the default map for normal mode to <leader>S
 add the following to your vimrc:
 >
-  map <leader>S  <plug>SearchDestroyNormal
+  nmap <leader>S  <plug>SearchDestroyNormal
 <
 
                                 *<Plug>SearchDestroyVisual*
 To remap the default map for visual mode to <leader>S 
 and the following to your vimrc:
 >
-  map <leader>S <Plug>SearchDestroyVisual
+  vmap <leader>S <Plug>SearchDestroyVisual
 <
 
 CONTRIBUTING                    *searchdestroy-contributing*
