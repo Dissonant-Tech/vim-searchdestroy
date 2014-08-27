@@ -58,7 +58,7 @@ function! search_destroy#SearchDestroyNormal()
     call search_destroy#ReplaceWord(old)
 endfunction
 
-function! SearchDestroyArgs()
+function! search_destroy#SearchDestroyArgs()
     let old = search_destroy#GetInput("Replace: ")
     if s:stop_execution == 1
         return
