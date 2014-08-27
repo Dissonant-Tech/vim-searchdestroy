@@ -70,6 +70,7 @@ function! SearchDestroyArgs()
             argdo '%s/'.l:old.'/'.l:new.'/g'
         endif
     endif
+endfunction
 
 function! search_destroy#ReplaceWord(word)
     let text = search_destroy#GetInput("Replace with: ")
