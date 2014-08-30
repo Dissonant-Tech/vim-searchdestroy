@@ -85,12 +85,9 @@ function! search_destroy#SearchAllVim()
     if s:stop_execution == 1
         return
     else
+        echo search_regex
         let s:ft = s:GetFTExtension()
-        if s:stop_execution == 1
-            return
-        else
-            vim search_regex . "**/." . s:ft . "| cw"
-        endif
+        noautocmd vim search_regex." **/.".s:ft." | cw"
     endif
 endfunction
 
