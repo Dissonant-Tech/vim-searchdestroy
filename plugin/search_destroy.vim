@@ -85,7 +85,7 @@ function! search_destroy#SearchAllVim()
     if s:stop_execution == 1
         return
     else
-        let s:ft = s:GetFTExtention()
+        let s:ft = s:GetFTExtension()
         if s:stop_execution == 1
             return
         else
@@ -97,6 +97,21 @@ endfunction
 " =========================================================
 "   SearchDestroy script functions
 " =========================================================
+
+function! search_destroy#GetInput(prompt)
+    let new_txt = input(a:prompt)
+    if empty(new_txt)
+        let s:stop_execution = 1
+        echo "No input. Exiting"
+    else
+        let new_txt = substitute(new_txt,"^\\s\\+\\|\\s\\+$","","g")
+        return new_txt
+    endif
+endfunction
+
+function! s:GetFTExsention()
+    return expand("%:e")
+endfunction
 
 function! search_destroy#ReplaceWord(word)
     let text = search_destroy#GetInput("Replace with: ")
@@ -135,13 +150,3 @@ function! s:GetNormalSelection()
     endtry
 endfunction
 
-function! search_destroy#GetInput(prompt)
-    let new_txt = input(a:prompt)
-    if empty(new_txt)
-        let s:stop_execution = 1
-        echo "No input. Exiting"
-    else
-        let new_txt = substitute(new_txt,"^\\s\\+\\|\\s\\+$","","g")
-        return new_txt
-    endif
-endfunction
