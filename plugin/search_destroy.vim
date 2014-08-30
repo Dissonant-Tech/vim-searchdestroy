@@ -67,27 +67,26 @@ function! search_destroy#SearchDestroyNormal()
 endfunction
 
 function! search_destroy#SearchDestroyArgs()
-    let old = search_destroy#GetInput("Replace: ")
+    let s:old = search_destroy#GetInput("Replace: ")
     if s:stop_execution == 1
         return
     else
-        let new = search_destroy#GetInput("With: ")
+        let s:new = search_destroy#GetInput("With: ")
         if s:stop_execution == 1
             return
         else
-            argdo '%s/'.l:old.'/'.l:new.'/g'
+            execute 'argdo %s/'.s:old.'/'.s:new .'/ge'
         endif
     endif
 endfunction
 
 function! search_destroy#SearchAllVim()
-    let search_regex = search_destroy#GetInput("Search Regex: ")
+    let s:search_regex = search_destroy#GetInput("Search Regex: ")
     if s:stop_execution == 1
         return
     else
-        echo search_regex
-        let s:ft = s:GetFTExtension()
-        noautocmd vim search_regex." **/.".s:ft." | cw"
+        let s:ft = search_destroy#GetFTExtension()
+        execute "noautocmd vim".s:search_regex." **/.".s:ft." | cw"
     endif
 endfunction
 
@@ -106,8 +105,9 @@ function! search_destroy#GetInput(prompt)
     endif
 endfunction
 
-function! s:GetFTExtension()
-    return expand("%:e")
+function! search_destroy#GetFTExtension()
+    let ft = expand("%:e")
+    return ft
 endfunction
 
 function! search_destroy#ReplaceWord(word)
