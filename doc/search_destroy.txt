@@ -29,6 +29,12 @@ be replaced, and for new text. Replaces all occurences in the selection.
 
 Prompts for a word or text to be replaced and for their replacement.
 Replaces all occurences in the files in :args.
+                            
+                            *searchdestroy-<leader>ssa*
+<leader>ssa
+
+Prompts for a regex and then searches for it throughout vim using vim's
+:vimgrep command.
 
                         *g:searchdestroy_default_mappings*
 To disable default maps, add the following to your vimrc:
@@ -49,6 +55,7 @@ and the following to your vimrc:
 >
   vmap <leader>S <Plug>SearchDestroyVisual
 <
+
 
 CONTRIBUTING                    *searchdestroy-contributing*
 
