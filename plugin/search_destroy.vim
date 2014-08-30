@@ -16,6 +16,7 @@ if !hasmapto('<Plug>SearchDestroy') && g:searchdestroy_default_mappings
     vmap <unique> <Leader>sd <Plug>SearchDestroyVisual
     nmap <unique> <Leader>sd <Plug>SearchDestroyNormal
     map <unique> <Leader>sda <Plug>SearchDestroyArgs
+    map <unique> <Leader>ssa <Plug>SearchAllVim
 endif
 
 if g:searchdestroy_default_mappings
@@ -24,12 +25,19 @@ if g:searchdestroy_default_mappings
 
     nmap <silent> <unique> <script> <Plug>SearchDestroyNormal
                 \ :call search_destroy#SearchDestroyNormal()<CR>
-    
+
     map <silent> <unique> <script> <Plug>SearchDestroyArgs
                 \ :call search_destroy#SearchDestroyArgs()<CR>
+
+    map <silent> <unique> <script> <Plug>SearchAllVim
+                \ :call search_destroy#SearchAllVim()<CR>
 endif
 
 let s:stop_execution = 0
+
+" =========================================================
+"   SearchDestroy main functions
+" =========================================================
 
 " Handle Visual mode mapping
 function! search_destroy#SearchDestroyVisual () range
@@ -71,6 +79,24 @@ function! search_destroy#SearchDestroyArgs()
         endif
     endif
 endfunction
+
+function! search_destroy#SearchAllVim()
+    let search_regex = search_destroy#GetInput("Search Regex: ")
+    if s:stop_execution == 1
+        return
+    else
+        let s:ft = s:GetFTExtention()
+        if s:stop_execution == 1
+            return
+        else
+            vim search_regex . "**/." . s:ft . "| cw"
+        endif
+    endif
+endfunction
+
+" =========================================================
+"   SearchDestroy script functions
+" =========================================================
 
 function! search_destroy#ReplaceWord(word)
     let text = search_destroy#GetInput("Replace with: ")
