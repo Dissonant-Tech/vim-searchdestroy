@@ -109,7 +109,7 @@ function! search_destroy#GetInput(prompt)
     endif
 endfunction
 
-function! s:GetFTExsention()
+function! s:GetFTExtension()
     return expand("%:e")
 endfunction
 
