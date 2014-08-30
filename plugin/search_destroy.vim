@@ -86,7 +86,7 @@ function! search_destroy#SearchAllVim()
         return
     else
         let s:ft = search_destroy#GetFTExtension()
-        execute "noautocmd vim".s:search_regex." **/.".s:ft." | cw"
+        execute "noautocmd vim ".s:search_regex." **/.".s:ft." | cw"
     endif
 endfunction
 
