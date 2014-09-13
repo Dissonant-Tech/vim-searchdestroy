@@ -16,7 +16,8 @@ if !hasmapto('<Plug>SearchDestroy') && g:searchdestroy_default_mappings
     vmap <unique> <Leader>sd <Plug>SearchDestroyVisual
     nmap <unique> <Leader>sd <Plug>SearchDestroyNormal
     map <unique> <Leader>sda <Plug>SearchDestroyArgs
-    map <unique> <Leader>ssa <Plug>SearchAllVim
+    map <unique> <Leader>sa <Plug>SearchAllVim
+    map <unique> <Leader>sl <Plug>SearchDestroyLast
 endif
 
 if g:searchdestroy_default_mappings
@@ -31,6 +32,8 @@ if g:searchdestroy_default_mappings
 
     map <silent> <unique> <script> <Plug>SearchAllVim
                 \ :call search_destroy#SearchAllVim()<CR>
+    map <silent> <unique> <script> <Plug>SearchDestroyLast
+                \ :call search_destroy#SearchDestroyLast()<CR>
 endif
 
 let s:stop_execution = 0
@@ -77,6 +80,15 @@ function! search_destroy#SearchDestroyArgs()
         else
             execute 'argdo %s/'.s:old.'/'.s:new .'/ge'
         endif
+    endif
+endfunction
+
+function! search_destroy#SearchDestroyLast()
+    let s:new = search_destroy#GetInput("Replace Width: ")
+    if s:stop_execution == 1
+        return
+    else
+        execute '%s//'.s:new.'/g'
     endif
 endfunction
 
