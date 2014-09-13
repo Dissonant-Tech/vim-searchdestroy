@@ -22,18 +22,19 @@ endif
 
 if g:searchdestroy_default_mappings
     vmap <silent> <unique> <script> <Plug>SearchDestroyVisual
-               \ :call search_destroy#SearchDestroyVisual()<CR>
+               \ :call SearchDestroy#SearchDestroyVisual()<CR>
 
     nmap <silent> <unique> <script> <Plug>SearchDestroyNormal
-                \ :call search_destroy#SearchDestroyNormal()<CR>
+                \ :call SearchDestroy#SearchDestroyNormal()<CR>
 
     map <silent> <unique> <script> <Plug>SearchDestroyArgs
-                \ :call search_destroy#SearchDestroyArgs()<CR>
+                \ :call SearchDestroy#SearchDestroyArgs()<CR>
 
     map <silent> <unique> <script> <Plug>SearchAllVim
-                \ :call search_destroy#SearchAllVim()<CR>
+                \ :call SearchDestroy#SearchAllVim()<CR>
+
     map <silent> <unique> <script> <Plug>SearchDestroyLast
-                \ :call search_destroy#SearchDestroyLast()<CR>
+                \ :call SearchDestroy#SearchDestroyLast()<CR>
 endif
 
 let s:stop_execution = 0
@@ -43,38 +44,38 @@ let s:stop_execution = 0
 " =========================================================
 
 " Handle Visual mode mapping
-function! search_destroy#SearchDestroyVisual () range
+function! SearchDestroy#SearchDestroyVisual () range
     let selection = s:GetSelection()
 
     if selection =~ " "
-        let old = search_destroy#GetInput("Replace: ")
+        let old = SearchDestroy#GetInput("Replace: ")
         if s:stop_execution == 1
             return
         else
-            let new = search_destroy#GetInput("With: ")
+            let new = SearchDestroy#GetInput("With: ")
             if s:stop_execution == 1
                 return
             else
-                '<,'>call search_destroy#ReplaceInRange(old, new)
+                '<,'>call SearchDestroy#ReplaceInRange(old, new)
             endif
         endif
     else
-        call search_destroy#ReplaceWord(selection)
+        call SearchDestroy#ReplaceWord(selection)
     endif
 endfunction
 
 " Handle normal mode mapping
-function! search_destroy#SearchDestroyNormal()
+function! SearchDestroy#SearchDestroyNormal()
     let old = s:GetNormalSelection()
-    call search_destroy#ReplaceWord(old)
+    call SearchDestroy#ReplaceWord(old)
 endfunction
 
-function! search_destroy#SearchDestroyArgs()
-    let s:old = search_destroy#GetInput("Replace: ")
+function! SearchDestroy#SearchDestroyArgs()
+    let s:old = SearchDestroy#GetInput("Replace: ")
     if s:stop_execution == 1
         return
     else
-        let s:new = search_destroy#GetInput("With: ")
+        let s:new = SearchDestroy#GetInput("With: ")
         if s:stop_execution == 1
             return
         else
@@ -83,8 +84,8 @@ function! search_destroy#SearchDestroyArgs()
     endif
 endfunction
 
-function! search_destroy#SearchDestroyLast()
-    let s:new = search_destroy#GetInput("Replace Width: ")
+function! SearchDestroy#SearchDestroyLast()
+    let s:new = SearchDestroy#GetInput("Replace Width: ")
     if s:stop_execution == 1
         return
     else
@@ -92,12 +93,12 @@ function! search_destroy#SearchDestroyLast()
     endif
 endfunction
 
-function! search_destroy#SearchAllVim()
-    let s:search_regex = search_destroy#GetInput("Search Regex: ")
+function! SearchDestroy#SearchAllVim()
+    let s:search_regex = SearchDestroy#GetInput("Search Regex: ")
     if s:stop_execution == 1
         return
     else
-        let s:ft = search_destroy#GetFTExtension()
+        let s:ft = SearchDestroy#GetFTExtension()
         execute "noautocmd vim ".s:search_regex." **/*.".s:ft." | cw"
     endif
 endfunction
@@ -106,7 +107,7 @@ endfunction
 "   SearchDestroy script functions
 " =========================================================
 
-function! search_destroy#GetInput(prompt)
+function! SearchDestroy#GetInput(prompt)
     let new_txt = input(a:prompt)
     if empty(new_txt)
         let s:stop_execution = 1
@@ -117,13 +118,13 @@ function! search_destroy#GetInput(prompt)
     endif
 endfunction
 
-function! search_destroy#GetFTExtension()
+function! SearchDestroy#GetFTExtension()
     let ft = expand("%:e")
     return ft
 endfunction
 
-function! search_destroy#ReplaceWord(word)
-    let text = search_destroy#GetInput("Replace with: ")
+function! SearchDestroy#ReplaceWord(word)
+    let text = SearchDestroy#GetInput("Replace with: ")
     if s:stop_execution == 1
         return
     else
@@ -131,7 +132,7 @@ function! search_destroy#ReplaceWord(word)
     endif
 endfunction
 
-function! search_destroy#ReplaceInRange(old, new) range
+function! SearchDestroy#ReplaceInRange(old, new) range
     let rpl = "'<,'>"
     execute rpl.'s/\%V'.a:old.'/'.a:new.'/g'
 endfunction
