@@ -25,7 +25,7 @@ if g:searchdestroy_default_mappings
                \ :call searchdestroy#SearchDestroyVisual()<CR>
 
     nmap <silent> <unique> <script> <Plug>SearchDestroyNormal
-                \ :put searchdestroy#SearchDestroyNormal()<CR>
+                \ :put = searchdestroy#SearchDestroyNormal()<CR>
 
     map <silent> <unique> <script> <Plug>SearchDestroyArgs
                 \ :call searchdestroy#SearchDestroyArgs()<CR>
