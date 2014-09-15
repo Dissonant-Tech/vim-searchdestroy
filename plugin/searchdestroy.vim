@@ -25,7 +25,7 @@ if g:searchdestroy_default_mappings
                \ :call searchdestroy#SearchDestroyVisual()<CR>
 
     nmap <silent> <unique> <script> <Plug>SearchDestroyNormal
-                \ :call searchdestroy#SearchDestroyNormal()<CR>
+                \ :put searchdestroy#SearchDestroyNormal()<CR>
 
     map <silent> <unique> <script> <Plug>SearchDestroyArgs
                 \ :call searchdestroy#SearchDestroyArgs()<CR>
@@ -163,6 +163,6 @@ function! s:GetNormalSelection()
 endfunction
 
 function! searchdestroy#outCommand(repl, oldRegex, newRegex)
-    let s:output = a:repl[0] . a:oldRegex . a:repl[1] . a:newRegex . a:repl[2]
+    let output = a:repl[0] . a:oldRegex . a:repl[1] . a:newRegex . a:repl[2]
     return output
 endfunction
