@@ -150,18 +150,6 @@ function! s:GetSelection()
     endtry
 endfunction
 
-function! s:GetNormalSelection()
-    try
-        let x_old = @x
-        "yank current visual selection to reg x
-        normal viw
-        normal gv"xy"
-        return @x
-    finally
-        let @x = x_old
-    endtry
-endfunction
-
 function! searchdestroy#outCommand(repl, oldRegex, newRegex)
     let s:output = a:repl[0] . a:oldRegex . a:repl[1] . a:newRegex . a:repl[2]
     execute output
