@@ -66,9 +66,9 @@ endfunction
 
 " Handle normal mode mapping
 function! searchdestroy#SearchDestroyNormal()
-    let repl = ['%s/','/','/g<left><left>']
-    let oldRegex = s:GetNormalSelection()
-    let newRegex = ''
+    let repl = ['%s/','/','/g']
+    let oldRegex = expand('<cWORD>')
+    let newRegex = searchdestroy#GetInput('')
     call searchdestroy#outCommand(repl, oldRegex, newRegex)
 endfunction
 
@@ -164,5 +164,5 @@ endfunction
 
 function! searchdestroy#outCommand(repl, oldRegex, newRegex)
     let s:output = a:repl[0] . a:oldRegex . a:repl[1] . a:newRegex . a:repl[2]
-    return output
+    execute output
 endfunction
