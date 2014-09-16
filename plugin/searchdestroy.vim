@@ -68,7 +68,12 @@ endfunction
 function! searchdestroy#SearchDestroyNormal()
     let repl = ['%s/','/','/g']
     let oldRegex = expand('<cWORD>')
+
     let newRegex = searchdestroy#GetInput('')
+    if (empty(newRegex)) 
+        return 
+    endif
+
     call searchdestroy#outCommand(repl, oldRegex, newRegex)
 endfunction
 
